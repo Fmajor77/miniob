@@ -444,7 +444,7 @@ RC ExecuteStage::do_select(SQLStageEvent *sql_event)
   } else {
     rc = project_oper.close();
   }
-  session_event->set_response("FAILURE\n");
+  session_event->set_response(ss.str());
   return rc;
 }
 
