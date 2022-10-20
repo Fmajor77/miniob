@@ -93,9 +93,12 @@ RC SelectStmt::create(Db *db, const Selects &select_sql, Stmt *&stmt)
         }
 
         Table *table = iter->second;
-        if (0 == strcmp(field_name, "*")) {
+        if (0 == strcmp(field_name, "*")&& i == 0) {//////i==0
           wildcard_fields(table, query_fields);
-        } else {
+        } else if(0 == strcmp(field_name, "*")&& i != 0){//第一个不是*，后面的有*，不支持
+			LOG_WARN("dont't suppport");
+            return RC::SCHEMA_FIELD_MISSING;
+		} else {
           const FieldMeta *field_meta = table->table_meta().field(field_name);
           if (nullptr == field_meta) {
             LOG_WARN("no such field. field=%s.%s.%s", db->name(), table->name(), field_name);
